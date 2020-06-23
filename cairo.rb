@@ -12,7 +12,7 @@ class Cairo < Formula
     sha256 "bec85433a35605164bdbf5f8913e29eb6d9ceb5acc5569dd9d864706ae6c8d49" => :el_capitan
   end
 
-  devel do
+  head do
     url "https://cairographics.org/snapshots/cairo-1.15.14.tar.xz"
     sha256 "16566b6c015a761bb0b7595cf879b77f8de85f90b443119083c4c2769b93298d"
   end
