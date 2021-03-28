@@ -31,7 +31,6 @@ class Cairo < Formula
   depends_on "glib"
   depends_on "libpng"
   depends_on "pixman"
-  depends_on :x11 => :optional
   depends_on "pkg-config" => :build if build.with? "x11"
 
   def install
@@ -48,6 +47,7 @@ class Cairo < Formula
     ]
 
     if build.with? "x11"
+      depends_on "libx11" => :recommended
       args << "--with-xft"
     else
       args << "--without-xft"
