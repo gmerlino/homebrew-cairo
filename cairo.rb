@@ -31,7 +31,6 @@ class Cairo < Formula
   depends_on "freetype"
   depends_on "glib"
   depends_on "libpng"
-  depends_on "libx11"
   depends_on "libxcb"
   depends_on "libxext"
   depends_on "libxrender"
@@ -48,6 +47,17 @@ class Cairo < Formula
     sha256 "363a6018efc52721e2eace8df3aa319c93f3ad765ef7e3ea04e2ddd4ee94d0e1"
   end
 
+  if build.with? "x11"
+    depends_on "libx11"
+    depends_on "libxft"
+  else
+    on_macos do
+      args += %w[
+        --enable-quartz-image
+      ]
+    end
+  end
+
   def install
     args = %W[
       --disable-dependency-tracking
@@ -60,17 +70,6 @@ class Cairo < Formula
       --enable-xlib
       --enable-xlib-xrender
     ]
-
-    if build.with? "x11"
-      depends_on "libx11" => :recommended
-      depends_on "libxft" => :recommended
-    else
-      on_macos do
-        args += %w[
-          --enable-quartz-image
-        ]
-      end
-    end
 
     if build.head?
       ENV["NOCONFIGURE"] = "1"
