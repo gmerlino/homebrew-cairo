@@ -27,6 +27,7 @@ class Cairo < Formula
 
   option "with-x11"
 
+  depends_on "pkg-config" => :build
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "glib"
@@ -36,7 +37,6 @@ class Cairo < Formula
   depends_on "libxrender"
   depends_on "lzo"
   depends_on "pixman"
-  depends_on "pkg-config" => :build
 
   uses_from_macos "zlib"
 
@@ -50,12 +50,6 @@ class Cairo < Formula
   if build.with? "x11"
     depends_on "libx11"
     depends_on "libxft"
-  else
-    on_macos do
-      args += %w[
-        --enable-quartz-image
-      ]
-    end
   end
 
   def install
@@ -70,6 +64,13 @@ class Cairo < Formula
       --enable-xlib
       --enable-xlib-xrender
     ]
+    unless build.with? "x11"
+      on_macos do
+        args += %w[
+          --enable-quartz-image
+        ]
+      end
+    end
 
     if build.head?
       ENV["NOCONFIGURE"] = "1"
